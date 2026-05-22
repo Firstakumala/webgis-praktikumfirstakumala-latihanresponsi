@@ -21,6 +21,7 @@
         <title></title>
     </head>
     <body>
+		<h1 class="judul-peta">PETA EFEKTIVITAS SPBU TERHADAP JANGKAUAN KEBUTUHAN PUBLIK DI KOTA PONTIANAK ATAU MEMPAWAH</h1>
         <div id="map">
         </div>
         <script src="js/qgis2web_expressions.js"></script>
@@ -425,6 +426,25 @@
         });
         bounds_group.addLayer(layer_PEMUKIMAN_AR_50K_3);
         map.addLayer(layer_PEMUKIMAN_AR_50K_3);
+			// --- PROSES BUFFER SPBU 1.5 KM ---
+        var bufferedSPBU = turf.buffer(json_SPBU_PT_50K_4, 1.5, { units: 'kilometers' });
+        var layer_Buffer_SPBU = L.geoJSON(bufferedSPBU, {
+            style: {
+                color: '#ff1493',      // Warna garis tepi buffer (Pink Tua)
+                fillColor: '#ff69b4',  // Warna area buffer (Pink Muda)
+                fillOpacity: 0.15,     // Transparansi
+                weight: 1.5,           
+                dashArray: '5, 5'      // Garis putus-putus
+            },
+            interactive: false         // Klik mouse bisa tembus ke ikon SPBU asli
+        }).addTo(map);
+
+        var overlaysTree = [
+            {label: 'Buffer SPBU 1.5 KM', layer: layer_Buffer_SPBU},
+            {label: '<img src="legend/SPBU_PT_50K_4.png" /> SPBU_PT_50K', layer: layer_SPBU_PT_50K_4},
+            {label: '<img src="legend/PEMUKIMAN_AR_50K_3.png" /> PEMUKIMAN_AR_50K', layer: layer_PEMUKIMAN_AR_50K_3},
+            {label: '<img src="legend/JALAN_LN_50K_2.png" /> JALAN_LN_50K', layer: layer_JALAN_LN_50K_2},
+            {label: '<img src="legend/ADMINISTRASIKECAMATAN_AR_50K_1.png" /> ADMINISTRASIKECAMATAN_AR_50K', layer: layer_ADMINISTRASIKECAMATAN_AR_50K_1},
         function pop_SPBU_PT_50K_4(feature, layer) {
             var popupContent = '<table>\
                     <tr>\
